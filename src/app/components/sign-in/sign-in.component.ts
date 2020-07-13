@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+declare var $:any;
 
 @Component({
   selector: 'app-sign-in',
@@ -10,6 +11,8 @@ export class SignInComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    $('#signIn').particleground();
+
   }
 
 }
