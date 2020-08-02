@@ -1,11 +1,17 @@
 <section id="signIn">
     <div class="container ">
-     <div class="form w-50 m-auto">
-        
-         
-         <input type="email" placeholder="Enter Email" class="form-control mb-3">
-         <input type="password" placeholder="Enter Password" class="form-control my-3">
-         <button class="btn btn-info w-100">Sign In</button>
-     </div>
+        <form [formGroup]='signIn' (ngSubmit)='FormData()'>
+            <div class="form w-50 m-auto">
+                <input [class.is-valid]='signIn.get("email").status=="VALID"' type="email" formControlName='email' placeholder="Enter Email" class="form-control mb-3">
+                <div *ngIf='signIn.controls.email.errors && signIn.controls.email.touched' class="alert alert-danger" role='alert'>
+                    Email is required
+                </div>
+                <input  [class.is-valid]='signIn.get("password").status=="VALID"'  type="password" formControlName='password' placeholder="Enter Password" class="form-control my-3">
+                <div *ngIf='signIn.controls.password.errors && signIn.controls.password.touched' class="alert alert-danger" role='alert'>
+                    Password is required
+                </div>
+                <button  class="btn btn-info w-100">Sign In</button>
+            </div>
+        </form>
     </div>
  </section>
