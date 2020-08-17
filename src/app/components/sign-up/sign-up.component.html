@@ -37,7 +37,13 @@
                     <li>Special characters</li>
                 </ul>
             </div>
-            <button [disabled]="signUp.invalid" [ngStyle]="signUp.invalid? {'background-color':'gray','border-color':'gray'}:{'background-color':'#14a2b8','border-color':'#14a2b8'}"  class="btn btn-info w-100">Sign Up</button>
+            <button [disabled]="signUp.invalid" [ngStyle]="signUp.invalid? {'background-color':'gray','border-color':'gray'}:{'background-color':'#14a2b8','border-color':'#14a2b8'}"  class="btn btn-info w-100"><span *ngIf="!isClicked">Sign Up</span><span *ngIf="isClicked">Waiting....</span></button>
+            <div *ngIf="isSuccess" class="alert alert-success text-center mt-2" role="alert">
+                {{responseMessage}}
+            </div>
+            <div *ngIf="isUniuqeEmail" class="alert alert-danger text-center mt-2" role="alert">
+                {{isUniuqeEmailMessage}}
+            </div>
         </div>
 
     </form>

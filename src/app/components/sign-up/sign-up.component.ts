@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
+import { AuthService } from 'src/app/Service/auth.service';
+
 declare var $: any;
 @Component({
   selector: 'app-sign-up',
@@ -8,7 +10,13 @@ declare var $: any;
 })
 export class SignUpComponent implements OnInit {
 
-  constructor() {
+
+  isClicked = false;
+  responseMessage = "";
+  isSuccess = false;
+  isUniuqeEmail = false;
+  isUniuqeEmailMessage = "";
+  constructor(private _AuthService: AuthService) {
   }
 
   signUp = new FormGroup(
@@ -22,9 +30,27 @@ export class SignUpComponent implements OnInit {
     }
   );
     FormData(){
+
       if (this.signUp.valid)
       {
-         console.log(this.signUp);
+        //  console.log(this.signUp);
+        this.isClicked = true;
+        this._AuthService.signUp(this.signUp.value).subscribe(response => {
+          if (response.message == "success"){
+            this.responseMessage = response.message;
+            this.isClicked = false; 
+            this.isUniuqeEmail = false; 
+            this.isSuccess = true;
+            this.signUp.reset();
+          }
+          else{
+            this.isUniuqeEmailMessage = response.errors.email.message;
+            this.isUniuqeEmail = true; 
+            this.isSuccess = false;
+            this.isClicked=false;
+          }
+
+        });
       }
     }
   ngOnInit(): void {
