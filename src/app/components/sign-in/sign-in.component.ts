@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/Service/auth.service';
+import { Router } from '@angular/router';
 declare var $: any;
 
 @Component({
@@ -9,7 +11,8 @@ declare var $: any;
 })
 export class SignInComponent implements OnInit {
 
-  constructor() { }
+  // tslint:disable-next-line: variable-name
+  constructor( private _AuthService: AuthService , private _Router: Router) { }
 
   signIn = new FormGroup(
     {
@@ -18,11 +21,27 @@ export class SignInComponent implements OnInit {
     }
   );
     FormData(){
-      if (this.signIn.valid)
-      {
-         console.log(this.signIn);
+
+        this._AuthService.signIn(this.signIn.value).subscribe(res => {
+
+          // tslint:disable-next-line: triple-equals
+          if (res.message == 'success')
+          {
+            localStorage.setItem('token', res.token);
+
+            this._Router.navigateByUrl('/profile');
+          }
+         else{
+           alert('Invalid Email or Password');
+         }
+
+        },
+        err => {
+          console.log(err);
+        });
       }
-    }
+
+
 
   ngOnInit(): void {
     $('#signIn').particleground();
